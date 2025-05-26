@@ -1,0 +1,20 @@
+[
+  {
+    "OrderItem": "Pizza: Margherita, Dough: Thin Crust, Sauce: Tomato Sauce, Toppings: Mozzarella Cheese, Basil, Base price: 120 грн",
+    "DeliveryInfo": "Самовивіз\nБезкоштовно\nАдреса: вул. Піцерійна, 12\nЧас приготування: ~10 хв",
+    "DeliveryTime": "2025-05-26T23:28:40.0904062+03:00",
+    "TotalPrice": 120
+  },
+  {
+    "OrderItem": "Pizza: Апетитна, Dough: Thin Crust, Sauce: White Garlic Sauce, Toppings: Mozzarella Cheese, Cheddar Cheese, Parmesan Cheese, Pepperoni, Mushrooms, Base price: 85 грн",
+    "DeliveryInfo": "Доставка дроном (до 15,0 км)\nВартість: 25,0 грн/км\nНайшвидший спосіб доставки!",
+    "DeliveryTime": "2025-05-26T23:46:58.9158779+03:00",
+    "TotalPrice": 460
+  },
+  {
+    "OrderItem": "Pizza: Pepperoni, Dough: Thick Crust, Sauce: Spicy Tomato Sauce, Toppings: Pepperoni, Mozzarella Cheese, Mushrooms, Base price: 150 грн\nДодано топінги: Cheddar Cheese, Parmesan Cheese, Pepperoni, Mushrooms",
+    "DeliveryInfo": "Кур'єрська доставка (до 5,0 км)\nВартість: 45,0 грн/км\nМінімальний час доставки: 15 хв",
+    "DeliveryTime": "2025-05-26T23:47:09.2084624+03:00",
+    "TotalPrice": 379
+  }
+]

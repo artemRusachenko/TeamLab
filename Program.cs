@@ -15,6 +15,7 @@ class Program
         pizzaFile = Path.GetFullPath(pizzaFile);
         string ingredientFile = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Storage\Data\ingridients.json");
         ingredientFile = Path.GetFullPath(ingredientFile);
+        
 
         var ingredientService = new IngredientStorageService(ingredientFile);
         var allIngredients = ingredientService.LoadIngredients() ?? new List<Ingredient>();
@@ -287,6 +288,10 @@ class Program
 
     static void ChooseDelivery(decimal? distanceKm, IPizza pizza)
     {
+        string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Storage\Data\orders.json");
+        path = Path.GetFullPath(path);
+        var storage = new OrderStorageService(path);
+
         Console.Clear();
         Console.WriteLine("Поточна піца для доставки:");
         Console.WriteLine(pizza.GetDescription());
@@ -320,9 +325,24 @@ class Program
         Console.WriteLine($"Загальна вартість: {pricePizza:F2} грн ({costDelivery:F2} грн доставка) - {totalPrice:F2} грн");
 
         if (AskYesNo("Підтвердити доставку? (так/ні): "))
+        {
+            if (pizza != null && time != TimeSpan.Zero && totalPrice != 0)
+            {
+                storage.SaveOrder(new Order
+                {
+                    OrderItem = pizza.GetDescription(),
+                    DeliveryInfo = strat.GetDeliveryInfo(),
+                    DeliveryTime = DateTime.Now + time,
+                    TotalPrice = totalPrice
+                });
+            }
             Console.WriteLine("Замовлення оформлено.");
+        }
         else
+        {
             Console.WriteLine("Доставка скасована.");
+            return;
+        }
 
     }
     static bool AskYesNo(string prompt = "(так/ні): ")
