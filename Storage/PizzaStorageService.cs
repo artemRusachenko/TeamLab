@@ -1,7 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
+using TeamLab.Domain;
 
-namespace TeamLab
+namespace TeamLab.Storage
 {
     public class PizzaStorageService
     {

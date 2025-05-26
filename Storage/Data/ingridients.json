@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Thin Crust",
+    "price": 20.0,
+    "type": "Dough"
+  },
+  {
+    "name": "Thick Crust",
+    "price": 25.0,
+    "type": "Dough"
+  },
+  {
+    "name": "Gluten-Free Crust",
+    "price": 30.0,
+    "type": "Dough"
+  },
+  {
+    "name": "Tomato Sauce",
+    "price": 5.0,
+    "type": "Sauce"
+  },
+  {
+    "name": "White Garlic Sauce",
+    "price": 6.0,
+    "type": "Sauce"
+  },
+  {
+    "name": "BBQ Sauce",
+    "price": 7.0,
+    "type": "Sauce"
+  },
+  {
+    "name": "Mozzarella Cheese",
+    "price": 10.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Cheddar Cheese",
+    "price": 12.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Parmesan Cheese",
+    "price": 15.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Pepperoni",
+    "price": 14.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Mushrooms",
+    "price": 8.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Green Peppers",
+    "price": 6.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Onions",
+    "price": 5.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Black Olives",
+    "price": 7.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Pineapple",
+    "price": 9.0,
+    "type": "Topping"
+  },
+  {
+    "name": "Bacon",
+    "price": 16.0,
+    "type": "Topping"
+  }
+]

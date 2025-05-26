@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Margherita",
+    "Dough": "Thin Crust",
+    "Sauce": "Tomato Sauce",
+    "Toppings": [ "Mozzarella Cheese", "Basil" ],
+    "BasePrice": 120.0
+  },
+  {
+    "Name": "Pepperoni",
+    "Dough": "Thick Crust",
+    "Sauce": "Spicy Tomato Sauce",
+    "Toppings": [ "Pepperoni", "Mozzarella Cheese", "Mushrooms" ],
+    "BasePrice": 150.0
+  }
+]
