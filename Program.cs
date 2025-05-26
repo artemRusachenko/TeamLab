@@ -150,29 +150,135 @@ class Program
 
     static IPizza CreateCustomPizza(List<Ingredient> ingredients, IngredientStorageService ingredientsService)
     {
-        if (!ingredients.Any())
+        if (ingredients == null || !ingredients.Any())
         {
-            Console.WriteLine("Інгредієнти недоступні.");
+            Console.WriteLine("Інгредієнти недоступні для створення піци.");
             Console.ReadLine();
             return null;
         }
+
         var builder = new PizzaBuilder(ingredients);
 
-        // Назва
+        // Назва піци
         while (true)
         {
-            Console.Write("Назва піци: ");
-            var n = Console.ReadLine()?.Trim();
-            if (string.IsNullOrEmpty(n)) { Console.WriteLine("Не може бути порожнім."); continue; }
-            builder.SetName(n);
+            Console.Write("Введіть назву піци: ");
+            var name = Console.ReadLine()?.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Назва не може бути порожньою. Спробуйте ще раз.");
+                continue;
+            }
+            builder.SetName(name);
             break;
         }
-        var domainPizza = builder.Build();  // повернув тип Pizza
-                                            
+
+        // Вибір тіста
+        var doughs = ingredients.Where(i => i.Type == IngredientType.Dough).ToList();
+        if (!doughs.Any())
+            Console.WriteLine("Вибір тіста недоступний.");
+        else
+        {
+            Console.WriteLine("Оберіть тісто (0 для випадкового):");
+            for (int i = 0; i < doughs.Count; i++)
+                Console.WriteLine($"{i + 1}. {doughs[i].Name} ({doughs[i].Price:F2} грн)");
+            while (true)
+            {
+                Console.Write("Ваш вибір: ");
+                var input = Console.ReadLine()?.Trim();
+                if (!int.TryParse(input, out var idx) || idx < 0 || idx > doughs.Count)
+                {
+                    Console.WriteLine($"Невірний ввід. Введіть число від 0 до {doughs.Count}.");
+                    continue;
+                }
+                if (idx > 0)
+                    builder.SetDough(doughs[idx - 1].Name);
+                break;
+            }
+        }
+
+        // Вибір соусу
+        var sauces = ingredients.Where(i => i.Type == IngredientType.Sauce).ToList();
+        if (!sauces.Any())
+            Console.WriteLine("Вибір соусу недоступний.");
+        else
+        {
+            Console.WriteLine("Оберіть соус (0 для пропуску):");
+            for (int i = 0; i < sauces.Count; i++)
+                Console.WriteLine($"{i + 1}. {sauces[i].Name} ({sauces[i].Price:F2} грн)");
+            while (true)
+            {
+                Console.Write("Ваш вибір: ");
+                var input = Console.ReadLine()?.Trim();
+                if (!int.TryParse(input, out var idx) || idx < 0 || idx > sauces.Count)
+                {
+                    Console.WriteLine($"Невірний ввід. Введіть число від 0 до {sauces.Count}.");
+                    continue;
+                }
+                if (idx > 0)
+                    builder.SetSauce(sauces[idx - 1].Name);
+                break;
+            }
+        }
+        static bool AskToppings(List<Ingredient> toppings, List<Ingredient> chosen)
+        {
+            Console.WriteLine("Доступні топінги:");
+            for (int i = 0; i < toppings.Count; i++)
+                Console.WriteLine($"{i + 1}. {toppings[i].Name} ({toppings[i].Price:F2} грн)");
+            Console.WriteLine("Введіть номери через кому або 0 для завершення:");
+            var inp = Console.ReadLine()?.Trim();
+            if (inp == "0" || string.IsNullOrWhiteSpace(inp)) return false;
+            foreach (var part in inp.Split(','))
+            {
+                if (int.TryParse(part.Trim(), out int i) && i > 0 && i <= toppings.Count)
+                {
+                    var t = toppings[i - 1];
+                    if (!chosen.Contains(t)) { chosen.Add(t); Console.WriteLine($"Додано: {t.Name}"); }
+                }
+                else Console.WriteLine($"Невірний індекс: {part}");
+            }
+            Console.WriteLine("Додати ще топінги? (так/ні): ");
+            return AskYesNo();
+        }
+
+        // Додавання топінгів
+        var toppings = ingredients.Where(i => i.Type == IngredientType.Topping).ToList();
+        if (toppings.Any() && AskYesNo("Бажаєте додати топінги? (так/ні): "))
+        {
+            var selected = new List<Ingredient>();
+            while (AskToppings(toppings, selected)) { }
+            if (selected.Any())
+                builder.SetToppings(selected.Select(t => t.Name).ToList());
+        }
+
+        // Видалення топінгів
+        if (builder.GetToppings().Any() && AskYesNo("Бажаєте видалити топінги? (так/ні): "))
+        {
+            while (true)
+            {
+                var current = builder.GetToppings();
+                Console.WriteLine("Поточні топінги: " + string.Join(", ", current));
+                Console.Write("Введіть назву топінга для видалення або Enter для завершення: ");
+                var rem = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(rem))
+                    break;
+                if (current.Contains(rem))
+                {
+                    builder.RemoveTopping(rem);
+                    Console.WriteLine($"Топінг '{rem}' видалено.");
+                }
+                else
+                    Console.WriteLine($"Топінг '{rem}' не знайдено.");
+            }
+        }
+
+        // Побудова піци та повернення через IPizza
+        var domainPizza = builder.Build();
         IPizza pizza = new BasicPizza(domainPizza);
 
         // Підсумок
-        Console.WriteLine("\nВаша піца:");
+        Console.WriteLine("Ваша піца готова: ");
+    
         Console.WriteLine(pizza.GetDescription());
         Console.WriteLine($"Ціна: {pizza.GetPrice():F2} грн");
         Console.ReadLine();
